@@ -8,6 +8,8 @@
 
 #import "SSDataSources.h"
 
+const NSTimeInterval SSEmptyViewAnimationDuration = 0.2;
+
 @interface SSBaseDataSource ()
 
 @property (nonatomic, assign) UITableViewCellSeparatorStyle cachedSeparatorStyle;
@@ -26,6 +28,7 @@
         self.collectionViewSupplementaryElementClass = [SSBaseCollectionReusableView class];
         self.rowAnimation = UITableViewRowAnimationAutomatic;
         self.cachedSeparatorStyle = UITableViewCellSeparatorStyleNone;
+        self.animateEmptyViewChange = YES;
     }
     
     return self;
@@ -237,7 +240,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     
     _emptyView = emptyView;
-    self.emptyView.hidden = YES;
+    
+    if (self.animateEmptyViewChange) {
+        self.emptyView.alpha = 0.0;
+    } else {
+        self.emptyView.hidden = YES;
+    }
     
     [self _updateEmptyView];
 }
@@ -286,7 +294,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         self.emptyView.autoresizingMask = targetView.autoresizingMask;
     }
     
-    self.emptyView.hidden = !shouldShowEmptyView;
+    if (self.animateEmptyViewChange) {
+        [UIView animateWithDuration:SSEmptyViewAnimationDuration
+                         animations:^{
+                             self.emptyView.alpha = shouldShowEmptyView;
+                         }
+                         completion:nil];
+    } else {
+        self.emptyView.hidden = !shouldShowEmptyView;
+    }
     
     // Reloading seems to work around an awkward delay where the empty view
     // is not immediately visible but the separator lines still are

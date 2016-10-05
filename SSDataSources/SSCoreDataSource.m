@@ -274,6 +274,9 @@ moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath
                 self.emptyView = self.emptyView;
             }];
         }
+    } else {
+        // Hackish; force recalculation of empty view state
+        self.emptyView = self.emptyView;
     }
 }
 

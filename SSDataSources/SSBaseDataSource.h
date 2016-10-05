@@ -149,6 +149,13 @@ typedef void (^SSTableCellDeletionBlock)
  */
 @property (nonatomic, strong) UIView *emptyView;
 
+/**
+ * A boolean flag that if set to `YES` and the `emptyView` property is not `nil`
+ * will animate the alpha property of the view instead of changing between 
+ * hidden and not hidden.
+ */
+@property (nonatomic, assign) BOOL animateEmptyViewChange;
+
 #pragma mark - UITableView
 
 /**
