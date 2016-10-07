@@ -86,6 +86,7 @@
 
 - (void)setController:(NSFetchedResultsController *)controller {
     _controller = controller;
+    _controller.delegate = self;
     
     [self _performFetch];
     [self reloadData];
