@@ -84,6 +84,13 @@
     return [self.controller objectAtIndexPath:indexPath];
 }
 
+- (void)setController:(NSFetchedResultsController *)controller {
+    _controller = controller;
+    
+    [self _performFetch];
+    [self reloadData];
+}
+
 #pragma mark - Core Data access
 
 - (NSIndexPath *)indexPathForItemWithId:(NSManagedObjectID *)objectId {
